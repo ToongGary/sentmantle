@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Client</title>
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+</head>
+<input type="text" id="text" placeholder="Text">
+<button id="submit">Check</button>
+<p>Score: </p><p id="score"></p>
+<script>
+    $("#submit").click(function() {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:5000",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify({text: $("#text").val()}),
+            success: function(data) {
+                $("#score").text(data.score)
+            }
+        })
+    })
+</script>
+</html>
