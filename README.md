@@ -6,7 +6,8 @@ pip install -r requirements.txt
 
 ### Sample
 
-Stable Diffusion
+Stable Diffusion (v2-1-base Model Card)
+https://huggingface.co/stabilityai/stable-diffusion-2-1-base?text=rabbit+on+the+building
 
 ```
 python sample/stable-diffusion.py
