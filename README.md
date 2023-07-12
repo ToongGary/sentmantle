@@ -4,6 +4,12 @@
 pip install -r requirements.txt
 ```
 
+### Run server
+
+```
+python app.py
+```
+
 ### Sample
 
 Stable Diffusion (v2-1-base Model Card)
