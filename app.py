@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 cors = CORS(app)
 
-today_word = "A bird is flying on a tree."
+today_word = "A pikachu fine dining with a view to the Eiffel Tower"
 
 
 @app.route('/', methods=['POST'])
