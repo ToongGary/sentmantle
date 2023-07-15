@@ -11,6 +11,11 @@ cors = CORS(app)
 today_word = "A pikachu fine dining with a view to the Eiffel Tower"
 
 
+@app.route('/', methods=['GET'])
+def main():
+    return app.send_static_file('client.html')
+
+
 @app.route('/', methods=['POST'])
 def post():
     embeddings = model.encode([today_word, request.get_json()["text"]])
@@ -19,4 +24,4 @@ def post():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='5000', debug=True)
+    app.run(host='127.0.0.1', port='5001', debug=True)
