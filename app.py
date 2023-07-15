@@ -1,19 +1,30 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, render_template
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from sentence_transformers import SentenceTransformer
 import numpy as np
+import random
+
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 app = Flask(__name__)
 
 cors = CORS(app)
 
-today_word = "A pikachu fine dining with a view to the Eiffel Tower"
+words_count = 463
+today_i = random.randint(0, words_count)
 
+f = open("sample/sentences", "r")
+today_word = f.readlines()[today_i]
+f.close()
 
 @app.route('/', methods=['GET'])
 def main():
-    return app.send_static_file('client.html')
+    return render_template('client.html', day=today_i)
+
+@app.route("/image/<day>", methods=['GET'])
+def image_today(day):
+    return send_file("sample/images/%d.png"%today_i, mimetype='image/png')
+
 
 
 @app.route('/', methods=['POST'])
