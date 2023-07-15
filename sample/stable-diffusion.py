@@ -1,15 +1,19 @@
-from diffusers import StableDiffusionPipeline, EulerDiscreteScheduler
+from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 import torch
 
-model_id = "stabilityai/stable-diffusion-2-1-base"
+model_id = "stabilityai/stable-diffusion-2-1"
 
-scheduler = EulerDiscreteScheduler.from_pretrained(
-    model_id, subfolder="scheduler")
-pipe = StableDiffusionPipeline.from_pretrained(
-    model_id, scheduler=scheduler, torch_dtype=torch.float32)
+pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
+pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 pipe = pipe.to("mps" if torch.backends.mps.is_available() else "cpu")
+# pipe = pipe.to("cuda")
 
-prompt = "a photo of an astronaut riding a horse on mars"
-image = pipe(prompt).images[0]
-
-image.save("astronaut_rides_horse.png")
+f = open("sentences")
+prompt = f.readline()
+i = 0
+while prompt:
+  image = pipe(prompt).images[0]
+  image.save("images/%d.png"%i)
+  i += 1
+  prompt = f.readline()
+f.close()
