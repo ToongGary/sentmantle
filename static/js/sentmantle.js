@@ -10,9 +10,10 @@ const app = createApp({
     const guesses = ref(JSON.parse(localStorage.getItem("guesses")) || []);
     const input_sentence = ref("");
     const message = ref("");
+    const current_guess = ref({ text: "", score: 0 });
 
     function guess() {
-			input_sentence.value = input_sentence.value.trim();
+      input_sentence.value = input_sentence.value.trim();
       if (input_sentence.value == "") {
         message.value = "Please enter a sentence!";
         return;
@@ -32,9 +33,15 @@ const app = createApp({
         data: JSON.stringify({ text: input_sentence.value }),
         success: function (data) {
           message.value = "";
-          guesses.value.push({ text: input_sentence.value, score: data.score });
-          guesses.value.sort((a, b) => b.score - a.score);
-          localStorage.setItem("guesses", JSON.stringify(guesses.value));
+
+          if (current_guess.value != "") {
+            guesses.value.push(current_guess.value);
+            guesses.value.sort((a, b) => b.score - a.score);
+          }
+
+          current_guess.value = { text: input_sentence.value, score: data.score };
+
+          localStorage.setItem("guesses", JSON.stringify([...guesses.value, current_guess.value].sort((a, b) => b.score - a.score)));
         },
       });
     }
@@ -44,6 +51,7 @@ const app = createApp({
       input_sentence,
       guess,
       message,
+      current_guess,
     };
   },
 });

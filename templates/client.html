@@ -31,6 +31,15 @@
             <th>Sentence</th>
             <th>Score</th>  
           </thead>
+          <tr v-if="current_guess.text!=''">
+            <td v-text="current_guess.text"></td>
+            <td v-text="current_guess.score"></td>
+          </tr>
+          <tr v-if="current_guess.text!=''">
+            <td colspan="2" class="divider">
+              <hr />
+            </td>
+          </tr>
           <tr v-for="guess in guesses">
             <td v-text="guess.text"></td>
             <td v-text="guess.score"></td>
