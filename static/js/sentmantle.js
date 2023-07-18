@@ -20,7 +20,8 @@ const app = createApp({
       }
       for (const guessed of guesses.value) {
         if (guessed.text == input_sentence.value) {
-          message.value = "You already guessed that sentence!";
+          current_guess.value = guessed;
+          message.value = "";
           return;
         }
       }
@@ -34,14 +35,12 @@ const app = createApp({
         success: function (data) {
           message.value = "";
 
-          if (current_guess.value != "") {
-            guesses.value.push(current_guess.value);
-            guesses.value.sort((a, b) => b.score - a.score);
-          }
-
           current_guess.value = { text: input_sentence.value, score: data.score };
 
-          localStorage.setItem("guesses", JSON.stringify([...guesses.value, current_guess.value].sort((a, b) => b.score - a.score)));
+          guesses.value.push(current_guess.value);
+          guesses.value.sort((a, b) => b.score - a.score);
+
+          localStorage.setItem("guesses", JSON.stringify(guesses.value));
         },
       });
     }

@@ -40,10 +40,12 @@
               <hr />
             </td>
           </tr>
-          <tr v-for="guess in guesses">
-            <td v-text="guess.text"></td>
-            <td v-text="guess.score"></td>
-          </tr>
+          <template v-for="guess in guesses">
+            <tr v-if="guess.text != current_guess.text" :key="guess.text">
+              <td v-text="guess.text"></td>
+              <td v-text="guess.score"></td>
+            </tr>
+          </template>
         </table>
       </div>
       <p id="score"></p>
