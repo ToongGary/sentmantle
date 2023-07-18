@@ -5,8 +5,15 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 import random
 
+class CustomFlask(Flask):
+    jinja_options = Flask.jinja_options.copy()
+    jinja_options.update(dict(
+    variable_start_string='%%',  # Default is '{{', I'm changing this because Vue.js uses '{{' / '}}'
+    variable_end_string='%%'))
+
+
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
-app = Flask(__name__)
+app = CustomFlask(__name__)
 
 cors = CORS(app)
 
@@ -16,6 +23,8 @@ today_i = random.randint(0, words_count)
 f = open("sample/sentences", "r")
 today_word = f.readlines()[today_i]
 f.close()
+
+print(today_word)
 
 @app.route('/', methods=['GET'])
 def main():

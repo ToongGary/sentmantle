@@ -5,33 +5,30 @@
     <script
       src="https://code.jquery.com/jquery-3.7.0.js"
       integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
-      crossorigin="anonymous"
-    ></script>
+      crossorigin="anonymous"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+        }
+      }
+    </script>
   </head>
   <body>
-    <img src="image/{{day}}" width="400px" /><br />
-    <input type="text" id="text" placeholder="Text" />
-    <button id="submit">Check</button>
-    <p>Score:</p>
-    <p id="score"></p>
-    <script>
-      $("#text").keypress(function (e) {
-        if (e.which == 13) {
-          $("#submit").click();
-        }
-      });
-      $("#submit").click(function () {
-        $.ajax({
-          type: "POST",
-          url: "http://localhost:5001",
-          dataType: "json",
-          contentType: "application/json",
-          data: JSON.stringify({ text: $("#text").val() }),
-          success: function (data) {
-            $("#score").append($("#text").val() + ": " + data.score + "<br>");
-          },
-        });
-      });
-    </script>
+    <script type="module" src="%%url_for('static',filename='js/sentmantle.js')%%"></script>
+    <div id="app">
+      <img src="image/%%day%%" width="400" /><br />
+      <form @submit.prevent="guess">
+        <input v-model="input_sentence" placeholder="Text" />
+        <button>Check</button>
+      </form>
+      <p>Score:</p>
+      <div id="guesses">
+        <ol>
+          <li v-for="guess in guesses" v-text="guess.text + ' ' + guess.score"></li>
+        </ol>
+      </div>
+      <p id="score"></p>
+    </div>
   </body>
 </html>
