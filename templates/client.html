@@ -26,9 +26,16 @@
       <p v-text="message"></p>
       <p>Score:</p>
       <div>
-        <ol>
-          <li v-for="guess in guesses" v-text="guess.text + ' ' + guess.score"></li>
-        </ol>
+        <table>
+          <thead>
+            <th>Sentence</th>
+            <th>Score</th>  
+          </thead>
+          <tr v-for="guess in guesses">
+            <td v-text="guess.text"></td>
+            <td v-text="guess.score"></td>
+          </tr>
+        </table>
       </div>
       <p id="score"></p>
     </div>
