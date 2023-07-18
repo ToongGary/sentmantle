@@ -23,8 +23,9 @@
         <input v-model="input_sentence" placeholder="Text" />
         <button>Check</button>
       </form>
+      <p v-text="message"></p>
       <p>Score:</p>
-      <div id="guesses">
+      <div>
         <ol>
           <li v-for="guess in guesses" v-text="guess.text + ' ' + guess.score"></li>
         </ol>
